@@ -1,6 +1,5 @@
 ARG GRPC_VERSION="1.67.1"
 ARG UBUNTU_VERSION="24.04"
-ARG ALPINE_VERSION="3.20"
 
 ARG USE_OPENSSL="false"
 
@@ -42,10 +41,6 @@ RUN mkdir -p ${GRPC_DIR} \
     && make install
 
 
-FROM alpine:${ALPINE_VERSION}
+FROM scratch
 
-ARG GRPC_DIR="/opt/grpc"
-
-COPY --from=builder /grpc ${GRPC_DIR}
-
-ENV PATH="${PATH}:${GRPC_DIR}/bin"
+COPY --from=builder /grpc /grpc
